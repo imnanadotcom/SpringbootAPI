@@ -7,7 +7,12 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.SecurityFilterChain;
+
+import com.c4_soft.springaddons.security.oidc.starter.synchronised.resourceserver.ResourceServerExpressionInterceptUrlRegistryPostProcessor;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
+
 @Configuration
+@EnableMethodSecurity
 public class WebSecurityConfiguration {
     @Bean
     SecurityFilterChain configureSecurityFilterChain(HttpSecurity http) throws Exception
@@ -20,4 +25,13 @@ public class WebSecurityConfiguration {
                 .oauth2ResourceServer(it -> it.jwt(Customizer.withDefaults()));
         return http.build();
     }
+
+    @Bean
+    ResourceServerExpressionInterceptUrlRegistryPostProcessor authorizePostProcessor() {
+        return registry -> registry.requestMatchers(HttpMethod.OPTIONS, "/api/**"
+                ).permitAll()
+                .requestMatchers("/api/**").authenticated()
+                .anyRequest().authenticated();
+    }
+
 }
