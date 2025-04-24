@@ -3,6 +3,8 @@ package com.example.copsboot.user;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.context.TestConfiguration;
+import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.HashSet;
@@ -18,14 +20,26 @@ public class UserRepositoryTest {
     private UserRepository repository;
 
     @Test
-    public void testStoreUser(){
+    public void testStoreUser() {
         HashSet<UserRole> roles = new HashSet<>();
         roles.add(UserRole.OFFICER);
-        User user = repository.save(new User(UUID.randomUUID(),
-                                                "alex.foley@beverly-hills.com",
-                                                    "my-secret-pwd", roles));
+        User user = repository.save(new User(repository.nextId(),
+                "alex.foley@beverly-hills.com",
+                "my-secret-pwd",
+                roles));
 
         assertThat(user).isNotNull();
         assertThat(repository.count()).isEqualTo(1L);
     }
+
+    @TestConfiguration
+    static class TestConfig {
+        @Bean
+        public UniqueIdGenerator<UUID> generator() {
+            return new InMemoryUniqueIdGenerator();
+        }
+    }
+
 }
+
+

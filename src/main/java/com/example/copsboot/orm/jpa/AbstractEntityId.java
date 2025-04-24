@@ -7,12 +7,7 @@ import jakarta.persistence.MappedSuperclass;
 import java.util.Objects;
 import static com.google.common.base.MoreObjects.toStringHelper;
 import static com.google.common.base.Preconditions.checkNotNull;
-/**
- * Abstract super class for entities. We are assuming that early primary key
- * generation will be used.
- *
- * @param <T> the type of {@link EntityId} that will be used for this entity
- */
+
 @MappedSuperclass
 public abstract class AbstractEntity<T extends EntityId> {
     @EmbeddedId
