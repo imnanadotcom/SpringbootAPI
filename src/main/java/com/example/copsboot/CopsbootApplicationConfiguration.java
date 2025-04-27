@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class CopsbootApplicationConfiguration {
+
     @Bean
     public UniqueIdGenerator<UUID> uniqueIdGenerator() {
         return new InMemoryUniqueIdGenerator();

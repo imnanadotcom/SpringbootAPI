@@ -1,27 +1,29 @@
 package com.example.copsboot.orm.jpa;
 
-import com.example.copsboot.util.ArtifactForFramework;
+import com.example.util.ArtifactForFramework;
 
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.MappedSuperclass;
-
-import java.io.Serializable;
 import java.util.Objects;
+
 import static com.google.common.base.MoreObjects.toStringHelper;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 @MappedSuperclass
-public abstract class AbstractEntityId<T extends Serializable> implements Serializable, EntityId<T> {
+public abstract class AbstractEntity<T extends EntityId> implements Entity<T> {
+
+    @EmbeddedId
     private T id;
+
 
     @ArtifactForFramework
     protected AbstractEntity() {
     }
 
-    protected AbstractEntity(T id) {
-
+    public AbstractEntity(T id) {
         this.id = checkNotNull(id);
     }
+
 
     @Override
     public T getId() {
@@ -29,13 +31,13 @@ public abstract class AbstractEntityId<T extends Serializable> implements Serial
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(Object obj) {
         boolean result = false;
 
-        if (this == o) {
+        if (this == obj) {
             result = true;
-        } else if (o instanceof AbstractEntityId) {
-            AbstractEntityId other = (AbstractEntityId) o;
+        } else if (obj instanceof AbstractEntity) {
+            AbstractEntity other = (AbstractEntity) obj;
             result = Objects.equals(id, other.id);
         }
 
