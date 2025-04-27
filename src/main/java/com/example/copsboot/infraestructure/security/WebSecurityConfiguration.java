@@ -14,22 +14,10 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 @Configuration
 @EnableMethodSecurity
 public class WebSecurityConfiguration {
-    @Bean
-    SecurityFilterChain configureSecurityFilterChain(HttpSecurity http) throws Exception
-    {
-        http
-                .authorizeHttpRequests(authorizeRequests -> authorizeRequests
-                        .requestMatchers(HttpMethod.OPTIONS, "/api/**").permitAll()
-                        .requestMatchers("/api/**").authenticated()
-                        .anyRequest().authenticated())
-                .oauth2ResourceServer(it -> it.jwt(Customizer.withDefaults()));
-        return http.build();
-    }
 
     @Bean
-    ResourceServerExpressionInterceptUrlRegistryPostProcessor authorizePostProcessor() {
-        return registry -> registry.requestMatchers(HttpMethod.OPTIONS, "/api/**"
-                ).permitAll()
+    ResourceServerExpressionInterceptUrlRegistryPostProcessor authorizePostProcessor() { //<.>
+        return registry -> registry.requestMatchers(HttpMethod.OPTIONS, "/api/**").permitAll()
                 .requestMatchers("/api/**").authenticated()
                 .anyRequest().authenticated();
     }
