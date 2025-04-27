@@ -7,6 +7,7 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
     public UserRepositoryImpl(UniqueIdGenerator<UUID> generator) {
         this.generator = generator;
     }
+
     @Override
     public UserId nextId() {
         return new UserId(generator.getNextUniqueId());

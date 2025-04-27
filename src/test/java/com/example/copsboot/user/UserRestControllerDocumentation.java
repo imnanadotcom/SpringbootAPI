@@ -1,6 +1,8 @@
 package com.example.copsboot.user;
 
+import com.c4_soft.springaddons.security.oauth2.test.webmvc.AutoConfigureAddonsWebmvcResourceServerSecurity;
 import com.example.copsboot.infraestructure.security.WebSecurityConfiguration;
+import com.example.copsboot.user.web.UserRestController;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
